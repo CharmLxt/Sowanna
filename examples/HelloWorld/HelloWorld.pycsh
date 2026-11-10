@@ -1,0 +1,10 @@
+{
+  "name": "HelloWorld",
+  "version": "0.1.0",
+  "description": "",
+  "assembly": "HelloWorld.dll",
+  "entry_class": "HelloWorld.Entry",
+  "framework": "net8.0",
+  "mode": "auto",
+  "methods": {}
+}

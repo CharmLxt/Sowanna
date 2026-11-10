@@ -1,0 +1,46 @@
+{
+  "name": "HelloWorld",
+  "version": "1.0.0",
+  "description": "Minimal Sowanna example",
+  "assembly": "HelloWorld.dll",
+  "entry_class": "HelloWorld.Entry",
+  "framework": "net6.0",
+  "mode": "auto",
+  "methods": {
+    "Add": {
+      "args": ["int", "int"],
+      "returns": "int",
+      "description": "Складывает два числа"
+    },
+    "Greet": {
+      "args": ["string"],
+      "returns": "string",
+      "description": "Возвращает приветствие"
+    },
+    "Range": {
+      "args": ["int"],
+      "returns": "int[]",
+      "description": "Массив 0..n-1"
+    },
+    "Mean": {
+      "args": ["double[]"],
+      "returns": "double",
+      "description": "Среднее значение"
+    },
+    "Version": {
+      "args": [],
+      "returns": "string",
+      "description": "Версия примера"
+    },
+    "CallPythonSum": {
+      "args": ["int", "int"],
+      "returns": "int",
+      "description": "Вызывает Python-callback 'sum' и возвращает результат"
+    },
+    "CallPythonGreet": {
+      "args": ["string"],
+      "returns": "string",
+      "description": "Вызывает Python-callback 'greet_from_python'"
+    }
+  }
+}

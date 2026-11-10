@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Sowanna"
+version = "0.1.0"
+description = "Мост между Python и C#: вызывайте C#-код из Python через JSON-протокол и Bridge.exe."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "CharmLxt", email = "reception.mailspypi@gmail.com" }]
+keywords = [
+    "csharp", "dotnet", "interop", "bridge", "python", "sowanna", "charmpkk",
+]
+dependencies = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C#",
+    "Environment :: Console",
+    "Topic :: Software Development :: Interpreter",
+]
+
+[project.urls]
+Homepage = "https://github.com/CharmLxt/Sowanna"
+Source = "https://github.com/CharmLxt/Sowanna"
+Tracker = "https://github.com/CharmLxt/Sowanna/issues"
+
+[project.optional-dependencies]
+charm = ["CharmPkk>=31.10.26b1"]
+
+[project.scripts]
+sowanna = "sowanna.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["sowanna*"]
+
+[tool.setuptools.package-data]
+sowanna = ["_bridge/*"]

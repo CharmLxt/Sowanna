@@ -1,0 +1,12 @@
+C:\Sowanna\examples\HelloWorld\bin\Helloworld.deps.json
+C:\Sowanna\examples\HelloWorld\bin\Helloworld.dll
+C:\Sowanna\examples\HelloWorld\bin\Helloworld.pdb
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.csproj.AssemblyReference.cache
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.GeneratedMSBuildEditorConfig.editorconfig
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.AssemblyInfoInputs.cache
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.AssemblyInfo.cs
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.csproj.CoreCompileInputs.cache
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.dll
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\refint\Helloworld.dll
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\Helloworld.pdb
+C:\Sowanna\examples\HelloWorld\obj\Release\net6.0\ref\Helloworld.dll
