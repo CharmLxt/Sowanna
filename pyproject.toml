@@ -21,7 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: C#",
     "Environment :: Console",
-    "Topic :: Software Development :: Interpreter",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [project.urls]
