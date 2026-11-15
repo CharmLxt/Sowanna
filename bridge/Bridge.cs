@@ -85,8 +85,7 @@ namespace Sowanna.Bridge
             FieldInfo? field;
             try
             {
-                field = _entry.GetField("CallbackHandler",
-                    BindingFlags.Public | BindingFlags.Static);
+                field = _entry.GetField("CallbackHandler", BindingFlags.Public | BindingFlags.Static);
             }
             catch { return; }
             if (field == null) return;
@@ -94,9 +93,7 @@ namespace Sowanna.Bridge
             var expectedType = typeof(Func<string, object[], object?>);
             if (field.FieldType != expectedType)
             {
-                Console.Error.WriteLine(
-                    $"Bridge: поле CallbackHandler имеет тип {field.FieldType.Name}, " +
-                    $"ожидался Func<string, object[], object?>. Callback не установлен.");
+                Console.Error.WriteLine($"Bridge: поле CallbackHandler имеет тип {field.FieldType.Name}, ожидался Func<string, object[], object?>. Callback не установлен.");
                 return;
             }
             try
@@ -141,9 +138,7 @@ namespace Sowanna.Bridge
                 kindElem.ValueKind != JsonValueKind.String ||
                 kindElem.GetString() != "callback_result")
             {
-                throw new InvalidOperationException(
-                    "Bridge: ожидался callback_result, получено: " +
-                    respLine.Substring(0, Math.Min(200, respLine.Length)));
+                throw new InvalidOperationException("Bridge: ожидался callback_result, получено: " + respLine.Substring(0, Math.Min(200, respLine.Length)));
             }
             if (root.TryGetProperty("error", out var errElem) && errElem.ValueKind != JsonValueKind.Null)
             {
@@ -183,24 +178,20 @@ namespace Sowanna.Bridge
             MethodInfo? method;
             try
             {
-                method = _entry.GetMethod(methodName,
-                    BindingFlags.Public | BindingFlags.Static | BindingFlags.IgnoreCase);
+                method = _entry.GetMethod(methodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.IgnoreCase);
             }
             catch (AmbiguousMatchException)
             {
-                return ErrorJson(idElem, "AmbiguousMatch",
-                    $"метод '{methodName}' имеет несколько перегрузок; Sowanna 0.1.0 не поддерживает overloads");
+                return ErrorJson(idElem, "AmbiguousMatch", $"метод '{methodName}' имеет несколько перегрузок");
             }
 
             if (method == null)
-                return ErrorJson(idElem, "MissingMethod",
-                    $"метод '{methodName}' не найден в {_entryName}");
+                return ErrorJson(idElem, "MissingMethod", $"метод '{methodName}' не найден в {_entryName}");
 
             var parameters = method.GetParameters();
 
             JsonElement[] argElems;
-            if (root.TryGetProperty("args", out var argsElem) &&
-                argsElem.ValueKind == JsonValueKind.Array)
+            if (root.TryGetProperty("args", out var argsElem) && argsElem.ValueKind == JsonValueKind.Array)
             {
                 argElems = new JsonElement[argsElem.GetArrayLength()];
                 int idx = 0;
@@ -212,8 +203,7 @@ namespace Sowanna.Bridge
             }
 
             if (argElems.Length != parameters.Length)
-                return ErrorJson(idElem, "ArgCount",
-                    $"метод '{methodName}' ожидает {parameters.Length} аргументов, получено {argElems.Length}");
+                return ErrorJson(idElem, "ArgCount", $"метод '{methodName}' ожидает {parameters.Length} аргументов, получено {argElems.Length}");
 
             object?[] callArgs = new object?[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
@@ -221,8 +211,7 @@ namespace Sowanna.Bridge
                 try { callArgs[i] = ConvertArg(argElems[i], parameters[i].ParameterType); }
                 catch (Exception e)
                 {
-                    return ErrorJson(idElem, "ArgConversion",
-                        $"аргумент {i} ({parameters[i].ParameterType.Name}): {e.Message}");
+                    return ErrorJson(idElem, "ArgConversion", $"аргумент {i} ({parameters[i].ParameterType.Name}): {e.Message}");
                 }
             }
 
@@ -251,6 +240,13 @@ namespace Sowanna.Bridge
         private static string ResultJson(JsonElement? id, object? value, Type returnType)
         {
             string idStr = id.HasValue ? id.Value.GetRawText() : "null";
+            
+            // Оптимизация для больших Base64-строк (картинки)
+            if (value is string strValue && strValue.Length > 10000)
+            {
+                return $"{{\"id\":{idStr},\"result\":{JsonSerializer.Serialize(strValue)}}}";
+            }
+            
             string resultStr = value == null ? "null" : JsonSerializer.Serialize(value, returnType);
             return $"{{\"id\":{idStr},\"result\":{resultStr}}}";
         }

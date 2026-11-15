@@ -1,33 +1,25 @@
-param(
-    [switch]$SelfContained,
-    [switch]$SingleFile,
-    [string]$Runtime = "win-x64"
-)
+param([switch]$SelfContained)
 
 $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $out = Join-Path $here "..\sowanna\_bridge"
 
 Write-Host "[Sowanna] publish Bridge.exe -> $out"
-Write-Host "[Sowanna] SelfContained=$SelfContained SingleFile=$SingleFile Runtime=$Runtime"
 
+# Очистка старых артефактов сборки
+if (Test-Path "$here\bin") { Remove-Item -Recurse -Force "$here\bin" }
+if (Test-Path "$here\obj") { Remove-Item -Recurse -Force "$here\obj" }
 if (Test-Path $out) { Remove-Item -Recurse -Force $out }
-New-Item -ItemType Directory -Force -Path $out | Out-Null
 
-$dotnetArgs = @(
-    "publish", "Sowanna.Bridge.csproj",
-    "-c", "Release",
-    "-o", $out,
-    "-r", $Runtime
-)
-if ($SelfContained) { $dotnetArgs += "--self-contained"; $dotnetArgs += "true" }
-else { $dotnetArgs += "--self-contained"; $dotnetArgs += "false" }
-if ($SingleFile) { $dotnetArgs += "/p:PublishSingleFile=true" }
-else { $dotnetArgs += "/p:PublishSingleFile=false" }
+New-Item -ItemType Directory -Force -Path $out | Out-Null
 
 Push-Location $here
 try {
-    dotnet @dotnetArgs
+    $args = @("publish", "Sowanna.Bridge.csproj", "-c", "Release", "-o", $out, "-r", "win-x64")
+    if ($SelfContained) { $args += "--self-contained"; $args += "true" }
+    else { $args += "--self-contained"; $args += "false" }
+    
+    dotnet @args
 } finally {
     Pop-Location
 }
